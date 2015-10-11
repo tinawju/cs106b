@@ -3,7 +3,7 @@
  * --------------------
  * Name: Tina Ju && Elena Portz
  * Section: Chip Nguyen
- * Hella recursion, all day every day. 
+ * Hella recursion, all day every day.
  */
 
 // Please feel free to add any other #includes you need!
@@ -15,6 +15,7 @@
 #include "random.h"
 using namespace std;
 
+int convertStringToIntegerHelper(string exp);
 Map<string, Vector<string>> inputGrammar(istream& input);
 string expandGrammar(Map<string, Vector<string>>& grammar, string key);
 string expandGrammarHelper(Map<string, Vector<string>>& grammar, string);
@@ -25,8 +26,29 @@ int countKarelPaths(int street, int avenue) {
 }
 
 int convertStringToInteger(string exp) {
-    // TODO: write this function
-    return 0;
+    if(exp.at(0) == '-'){
+        return -1 * convertStringToIntegerHelper(exp.substr(1));
+    }else{
+        return convertStringToIntegerHelper(exp);
+    }
+}
+
+int convertStringToIntegerHelper(string exp){
+    if(exp.length() == 0){
+        return 0;
+    }
+    else{
+        string numbers = "0123456789";
+        char lastNumStr = exp.at(exp.length()-1);
+        int lastNum = numbers.find(lastNumStr);
+        if(lastNum != -1){
+            exp.erase(exp.length()-1, 1);
+            return lastNum + 10*convertStringToIntegerHelper(exp);
+        }
+        else{
+            throw string("exception ! error");
+        }
+    }
 }
 
 bool isBalanced(string exp) {
