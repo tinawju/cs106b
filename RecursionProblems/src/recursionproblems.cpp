@@ -16,6 +16,7 @@
 using namespace std;
 
 int convertStringToIntegerHelper(string exp);
+bool isBalancedHelper(string exp, string target);
 Map<string, Vector<string>> inputGrammar(istream& input);
 string expandGrammar(Map<string, Vector<string>>& grammar, string key);
 string expandGrammarHelper(Map<string, Vector<string>>& grammar, string);
@@ -41,7 +42,7 @@ int convertStringToIntegerHelper(string exp){
         string numbers = "0123456789";
         char lastNumStr = exp.at(exp.length()-1);
         int lastNum = numbers.find(lastNumStr);
-        if(lastNum != -1){
+        if(lastNum != string::npos){
             exp.erase(exp.length()-1, 1);
             return lastNum + 10*convertStringToIntegerHelper(exp);
         }
@@ -52,8 +53,22 @@ int convertStringToIntegerHelper(string exp){
 }
 
 bool isBalanced(string exp) {
-    // TODO: write this function
-    return false;
+    if(exp.length() == 0){
+        return true;
+    } else {
+        return isBalancedHelper(exp, "()") || isBalancedHelper(exp, "[]")
+                || isBalancedHelper(exp, "<>") || isBalancedHelper(exp, "{}");
+        }
+    }
+
+bool isBalancedHelper(string exp, string target){
+    int index = exp.find(target);
+    if(index != string::npos){
+        exp.erase(index, target.length());
+        return isBalanced(exp);
+    } else {
+        return false;
+    }
 }
 
 double weightOnKnees(int row, int col, Vector<Vector<double> >& weights) {
